@@ -3,12 +3,12 @@ package groph
 import "fmt"
 
 type Vertex struct {
-	VertexData
+	Data `json:"data, omitempty"`
 	OuterEdges []*Edge `json:"outer_edges, omitempty"`
 	InnerEdges []*Edge `json:"inner_edges, omitempty"`
 }
 
-type VertexData interface {
+type Data interface {
 	GetData() interface{}
 	GetID() interface{}
 }
@@ -31,7 +31,7 @@ func (v *Vertex) Inner() ([]*Edge, error) {
 }
 
 func (v *Vertex) String() string {
-	res := fmt.Sprintf("Data: %s(%s)\n", v.VertexData.GetData(), v.VertexData.GetID())
+	res := fmt.Sprintf("Data: %s(%s)\n", v.Data.GetData(), v.Data.GetID())
 	for _, edge := range v.InnerEdges {
 		res += edge.String()
 	}
