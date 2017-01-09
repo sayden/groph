@@ -1,0 +1,27 @@
+[
+  {
+    "vertex":  { "id": "start",   "data":{ "description":"starting point"    }                },
+    "edge":    { "id": "goes to", "data":{ "description":"data in some edge" }, "weight":52.3 },
+    "d_vertex":{ "id": "A"                                                                    }
+  },
+  {
+    "vertex":  { "id": "A" },
+    "edge":    { "id": "goes to", "weight":52.3 },
+    "d_vertex":{ "id": "finish"}
+  },
+  {
+    "vertex":  { "id": "A" },
+    "edge":    { "id": "goes to" },
+    "d_vertex":{ "id": "B"}
+  },
+  {
+    "vertex":  { "id": "B" },
+    "edge":    { "id": "goes to" },
+    "d_vertex":{ "id": "A"}
+  },
+  {
+    "vertex":  { "id": "B" },
+    "edge":    { "id": "goes to", "weight":52.3 },
+    "d_vertex":{ "id": "finish"}
+  }
+]

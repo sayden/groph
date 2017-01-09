@@ -14,5 +14,6 @@ func (e *Edge) Points(v *Vertex) bool {
 }
 
 func (e *Edge) String() string {
-	return fmt.Sprintf("\n%#v\nPointsTo: %s(%s)\nFrom: %s(%s)\nWeight: %f\n", e.Data, e.PointsTo.GetData(), e.PointsTo.GetID(), e.From.GetData(), e.From.GetID(), e.Weight)
+	return fmt.Sprintf("\nEDGE ID: '%s'\nData: '%v'\nPointsTo ID: '%s'\nPointsTo Data: '%v'\nFrom ID: '%s'\nFrom Data: '%v'\nWeight: '%f'\n",
+		e.GetID(), e.GetData(), e.PointsTo.GetID(), e.PointsTo.GetData(), e.From.GetID(), e.From.GetData(), e.Weight)
 }

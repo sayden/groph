@@ -23,8 +23,8 @@ func (g *Graph) Find(id interface{}) (*Vertex, error) {
 
 func (g *Graph) NewEdge(d Data, weight float64) *Edge {
 	return &Edge{
-		Data:     d,
-		Weight:   weight,
+		Data:   d,
+		Weight: weight,
 	}
 }
 
@@ -35,6 +35,10 @@ func (g *Graph) AddConnection(s, t *Vertex, e *Edge) {
 
 	s.OuterEdges = append(s.OuterEdges, e)
 	t.InnerEdges = append(t.InnerEdges, e)
+
+	if g.StartVertex == nil {
+		g.StartVertex = s
+	}
 }
 
 // NewVertexWithUpdate returns an initialized vertex with the provided data if it doesn't exists already or a pointer to the
@@ -71,11 +75,9 @@ func (g *Graph) NewVertex(d Data) *Vertex {
 		return newV
 	}
 
-	v := g.IndexMap[d.GetID()]
-	v.Data = d
-	g.IndexMap[d.GetID()] = v
+	g.IndexMap[d.GetID()].Data = d
 
-	return v
+	return g.IndexMap[d.GetID()]
 }
 
 // SetRootVertex changes the current root vertex. This is useful to initiate some specific searches from a particular vertex

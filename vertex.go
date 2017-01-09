@@ -31,14 +31,17 @@ func (v *Vertex) Inner() ([]*Edge, error) {
 }
 
 func (v *Vertex) String() string {
-	res := fmt.Sprintf("Data: %s(%s)\n", v.Data.GetData(), v.Data.GetID())
+	res := fmt.Sprintf("VERTEX ID: '%s'\nVertex Data: %v\nEdges pointing this vertex:\n[START]", v.GetID(), v.GetData())
 	for _, edge := range v.InnerEdges {
 		res += edge.String()
 	}
 
+	res += "\n[END]\nEdges pointing out:\n[START]"
 	for _, edge := range v.OuterEdges {
 		res += edge.String()
 	}
+
+	res += "[END]"
 
 	return res
 }

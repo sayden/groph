@@ -1,0 +1,8 @@
+[
+  { "vertex": "start", "edge": "goes to", "d_vertex": "B" },
+  { "vertex": "A", "edge": "goes to", "d_vertex": "finish" },
+  { "vertex": "A", "edge": "goes to", "d_vertex": "B" },
+  { "vertex": "B", "edge": "goes to", "d_vertex": "finish" },
+  { "vertex": "B", "edge": "goes to", "d_vertex": "A" },
+  { "vertex": "finish", "edge": "goes to", "d_vertex": "start" }
+]
