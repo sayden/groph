@@ -3,7 +3,7 @@ package groph
 import "fmt"
 
 type Edge struct {
-	Data     interface{} `json:"data, omitempty"`
+	Data `json:"data, omitempty"`
 	PointsTo *Vertex     `json:"PointsTo, omitempty"`
 	From     *Vertex     `json:"From, omitempty"`
 	Weight   float64     `json:"weight, omitempty"`

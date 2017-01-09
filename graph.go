@@ -5,15 +5,15 @@ import (
 	"os"
 )
 
-//Graph is the main type to do queries and stores a vertex to be used as the starting point of any query. At the same
-//time it maintains a map of known vertices
+// Graph is the main type to do queries and stores a vertex to be used as the starting point of any query. At the same
+// time it maintains a map of known vertices
 type Graph struct {
 	StartVertex *Vertex
 	IndexMap    map[interface{}]*Vertex
 }
 
-//Find returns the vertex with the provided ID or a not found error
-func (g *Graph) Find(id interface{}) (*Vertex, error){
+// Find returns the vertex with the provided ID or a not found error
+func (g *Graph) Find(id interface{}) (*Vertex, error) {
 	if g.IndexMap[id] != nil {
 		return g.IndexMap[id], nil
 	}
@@ -21,7 +21,14 @@ func (g *Graph) Find(id interface{}) (*Vertex, error){
 	return nil, vertexNotFoundError
 }
 
-//AddConnection connects two existing vertices with the provided edge
+func (g *Graph) NewEdge(d Data, weight float64) *Edge {
+	return &Edge{
+		Data:     d,
+		Weight:   weight,
+	}
+}
+
+// AddConnection connects two existing vertices with the provided edge
 func (g *Graph) AddConnection(s, t *Vertex, e *Edge) {
 	e.From = s
 	e.PointsTo = t
@@ -30,20 +37,48 @@ func (g *Graph) AddConnection(s, t *Vertex, e *Edge) {
 	t.InnerEdges = append(t.InnerEdges, e)
 }
 
-//NewVertex returns an initialized vertex with the provided data
-func (g *Graph) NewVertex(d Data) *Vertex {
-	newV := &Vertex{
-		InnerEdges: make([]*Edge, 0),
-		OuterEdges: make([]*Edge, 0),
-		Data: d,
+// NewVertexWithUpdate returns an initialized vertex with the provided data if it doesn't exists already or a pointer to the
+// already existing one with the contents updated with the incoming data
+func (g *Graph) NewVertexWithUpdate(d Data) *Vertex {
+	if g.IndexMap[d.GetID()] == nil {
+		newV := &Vertex{
+			InnerEdges: make([]*Edge, 0),
+			OuterEdges: make([]*Edge, 0),
+			Data:       d,
+		}
+
+		g.IndexMap[d.GetID()] = newV
+
+		return newV
 	}
 
-	g.IndexMap[d.GetID()] = newV
-
-	return newV
+	return g.IndexMap[d.GetID()]
 }
 
-//SetRootVertex changes the current root vertex. This is useful to initiate some specific searches from a particular vertex
+// NewVertex returns an initialized vertex with the provided data if it doesn't exists already or a pointer to the
+// already existing one. Any contents incoming in 'd' are lost if the Vertex is found. If you want to update use
+// 'NewVertexWithUpdate' instead.
+func (g *Graph) NewVertex(d Data) *Vertex {
+	if g.IndexMap[d.GetID()] == nil {
+		newV := &Vertex{
+			InnerEdges: make([]*Edge, 0),
+			OuterEdges: make([]*Edge, 0),
+			Data:       d,
+		}
+
+		g.IndexMap[d.GetID()] = newV
+
+		return newV
+	}
+
+	v := g.IndexMap[d.GetID()]
+	v.Data = d
+	g.IndexMap[d.GetID()] = v
+
+	return v
+}
+
+// SetRootVertex changes the current root vertex. This is useful to initiate some specific searches from a particular vertex
 func (g *Graph) SetRootVertex(r *Vertex) {
 	g.StartVertex = r
 }
@@ -64,7 +99,7 @@ func LoadGraphFromDisk(filePath string) (*Graph, error) {
 
 }
 
-//NewGraph just returns an initialized graph
+// NewGraph just returns an initialized graph
 func NewGraph() *Graph {
 	return &Graph{
 		IndexMap: make(map[interface{}]*Vertex),

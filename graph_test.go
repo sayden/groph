@@ -14,6 +14,18 @@ func (v *VertexMockData) GetID() interface{} {
 	return v.Data
 }
 
+type EdgeMockData struct {
+	Data string
+}
+
+func (e *EdgeMockData) GetData() interface{} {
+	return e.Data
+}
+
+func (e *EdgeMockData) GetID() interface{} {
+	return e.Data
+}
+
 func getMockedGraph() *Graph {
 	graph := NewGraph()
 
@@ -23,16 +35,16 @@ func getMockedGraph() *Graph {
 
 	graph.StartVertex = start
 
-	graph.AddConnection(start, a, &Edge{Data: "Start to A", Weight: 6})
-	graph.AddConnection(start, b, &Edge{Data: "Start to B", Weight: 2})
+	graph.AddConnection(start, a, &Edge{Data: &EdgeMockData{Data: "Start to A"}, Weight: 6})
+	graph.AddConnection(start, b, &Edge{Data: &EdgeMockData{Data: "Start to B"}, Weight: 2})
 
-	graph.AddConnection(a, finish, &Edge{Data: "A to Finish", Weight: 1})
-	graph.AddConnection(b, a, &Edge{Data: "A to B", Weight: 3})
+	graph.AddConnection(a, finish, &Edge{Data: &EdgeMockData{Data: "A to Finish"}, Weight: 1})
+	graph.AddConnection(b, a, &Edge{Data: &EdgeMockData{Data: "A to B"}, Weight: 3})
 
-	graph.AddConnection(b, finish, &Edge{Data: "B to Finish", Weight: 5})
-	graph.AddConnection(b, a, &Edge{Data: "B to A", Weight: 3})
+	graph.AddConnection(b, finish, &Edge{Data: &EdgeMockData{Data: "B to Finish"}, Weight: 5})
+	graph.AddConnection(b, a, &Edge{Data: &EdgeMockData{Data: "B to A"}, Weight: 3})
 
-	graph.AddConnection(finish, start, &Edge{Data: "Finish to start", Weight: 100})
+	graph.AddConnection(finish, start, &Edge{Data: &EdgeMockData{Data: "Finish to start"}, Weight: 100})
 
 	graph.SetRootVertex(start)
 

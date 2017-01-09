@@ -5,14 +5,14 @@ import "testing"
 func TestNewQueue(t *testing.T) {
 	q := NewQueue()
 
-	q.Push(&Edge{Weight:2, Data:"hello"})
+	q.Push(&Edge{Weight:2, Data:&EdgeMockData{Data:"hello"}})
 
 	v, err := q.Pop()
 	if err != nil {
 		t.Fail()
 	}
 
-	if v.Data != "hello" || v.Weight != 2 {
+	if v.Data.GetID() != "hello" || v.Weight != 2 {
 		t.Fail()
 	}
 }
