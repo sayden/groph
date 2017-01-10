@@ -1,12 +1,12 @@
 package groph
 
 //Inner returns the edges that points to current vertex
-func (g *Graph) Inner(v *Vertex) ([]*Edge, error) {
+func (g *Graph) Inner(v *Vertex) []*Edge {
 	return v.Inner()
 }
 
 //InnerWhereEdge traverses the entire graph and returns all inner edges that passes the filter function
-func (g *Graph) InnerWhereEdge(f func(*Edge) bool) (res []*Edge, err error) {
+func (g *Graph) InnerWhereEdge(f func(*Edge) bool) (res []*Edge) {
 	res = make([]*Edge, 0)
 
 	g.Traverse(func(v *Vertex) {
@@ -17,16 +17,12 @@ func (g *Graph) InnerWhereEdge(f func(*Edge) bool) (res []*Edge, err error) {
 		}
 	})
 
-	if len(res) == 0 {
-		return nil, noEdgesError
-	}
-
-	return res, nil
+	return res
 }
 
 
 //InnerWhereVertex returns all inner edges that matches the filter function
-func (g *Graph) InnerWhereVertex(f func(*Vertex) bool) (res []*Edge, err error) {
+func (g *Graph) InnerWhereVertex(f func(*Vertex) bool) (res []*Edge) {
 	res = make([]*Edge, 0)
 
 	g.Traverse(func(c *Vertex) {
@@ -34,10 +30,6 @@ func (g *Graph) InnerWhereVertex(f func(*Vertex) bool) (res []*Edge, err error) 
 			res = append(res, c.InnerEdges...)
 		}
 	})
-
-	if len(res) == 0 {
-		err = noVerticesError
-	}
 
 	return
 }

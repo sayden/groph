@@ -1,74 +1,27 @@
 package groph
 
-import "testing"
-
-type VertexMockData struct {
-	Data string
-}
-
-func (v *VertexMockData) GetData() interface{} {
-	return v.Data
-}
-
-func (v *VertexMockData) GetID() interface{} {
-	return v.Data
-}
-
-type EdgeMockData struct {
-	Data string
-}
-
-func (e *EdgeMockData) GetData() interface{} {
-	return e.Data
-}
-
-func (e *EdgeMockData) GetID() interface{} {
-	return e.Data
-}
-
 func getMockedGraph() *Graph {
 	graph := NewGraph()
 
-	a, b := graph.NewVertex(&VertexMockData{"A"}), graph.NewVertex(&VertexMockData{"B"})
+	a := graph.NewVertex(&AnyData{Data: "A", ID: "A"})
+	b := graph.NewVertex(&AnyData{Data: "B", ID: "B"})
 
-	start, finish := graph.NewVertex(&VertexMockData{"start"}), graph.NewVertex(&VertexMockData{"finish"})
+	start := graph.NewVertex(&AnyData{Data: "start", ID: "start"})
+	finish := graph.NewVertexWithUpdate(&AnyData{Data: "finish", ID: "finish"})
+	finish = graph.NewVertexWithUpdate(&AnyData{Data: "finish", ID: "finish"})
 
-	graph.StartVertex = start
+	graph.AddConnection(start, a, graph.NewEdge(&AnyData{Data: "Start to A", ID: "Start to A"}, 6))
+	graph.AddConnection(start, b, graph.NewEdge(&AnyData{Data: "Start to B", ID: "Start to B"}, 2))
 
-	graph.AddConnection(start, a, &Edge{Data: &EdgeMockData{Data: "Start to A"}, Weight: 6})
-	graph.AddConnection(start, b, &Edge{Data: &EdgeMockData{Data: "Start to B"}, Weight: 2})
+	graph.AddConnection(a, finish, graph.NewEdge(&AnyData{Data: "A to Finish", ID: "A to Finish"}, 1))
+	graph.AddConnection(b, a, graph.NewEdge(&AnyData{Data: "A to B", ID: "A to B"}, 3))
 
-	graph.AddConnection(a, finish, &Edge{Data: &EdgeMockData{Data: "A to Finish"}, Weight: 1})
-	graph.AddConnection(b, a, &Edge{Data: &EdgeMockData{Data: "A to B"}, Weight: 3})
+	graph.AddConnection(b, finish, graph.NewEdge(&AnyData{Data: "B to Finish", ID: "B to Finish"}, 5))
+	graph.AddConnection(b, a, graph.NewEdge(&AnyData{Data: "B to A", ID: "B to A"}, 3))
 
-	graph.AddConnection(b, finish, &Edge{Data: &EdgeMockData{Data: "B to Finish"}, Weight: 5})
-	graph.AddConnection(b, a, &Edge{Data: &EdgeMockData{Data: "B to A"}, Weight: 3})
-
-	graph.AddConnection(finish, start, &Edge{Data: &EdgeMockData{Data: "Finish to start"}, Weight: 100})
+	graph.AddConnection(finish, start, graph.NewEdge(&AnyData{Data: "Finish to start", ID: "Finish to start"}, 100))
 
 	graph.SetRootVertex(start)
 
 	return graph
-}
-
-func TestGraph_LoadAndSaveToDisk(t *testing.T) {
-	graph := getMockedGraph()
-
-	t.Run("Save to disk", func(t *testing.T) {
-		err := graph.SaveToDisk("/tmp/graph")
-		if err != nil {
-			t.Fatal(err)
-		}
-	})
-
-	t.Run("Load from disk", func(t *testing.T) {
-		graph, err := LoadGraphFromDisk("/tmp/graph")
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if graph.StartVertex.GetID() != "start" {
-			t.Fail()
-		}
-	})
 }

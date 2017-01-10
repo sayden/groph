@@ -8,10 +8,7 @@ import (
 func TestVertex_Inner(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges, err := graph.Inner(graph.StartVertex)
-	if err != nil {
-		t.Fatal(err)
-	}
+	edges := graph.Inner(graph.StartVertex)
 
 	if len(edges) != 1 {
 		t.Errorf("Unexpected number of edges %d != %d\n", len(edges), 1)
@@ -27,13 +24,9 @@ func TestVertex_Inner(t *testing.T) {
 func TestGraph_InnerWhereEdge(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges, err := graph.InnerWhereEdge(func(e *Edge) bool {
+	edges := graph.InnerWhereEdge(func(e *Edge) bool {
 		return e.PointsTo.GetID() == "start"
 	})
-
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	if edges[0].From.GetID() != "finish" || edges[0].PointsTo.GetID() != "start" {
 		fmt.Printf("%#v\n", edges[0])
@@ -44,13 +37,9 @@ func TestGraph_InnerWhereEdge(t *testing.T) {
 func TestGraph_InnerWhereVertex(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges, err := graph.InnerWhereVertex(func(v *Vertex) bool {
+	edges := graph.InnerWhereVertex(func(v *Vertex) bool {
 		return v.GetID() == "finish"
 	})
-
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	if len(edges) != 2 {
 		t.Errorf("Unexpected number of edges %d != %d\n", len(edges), 2)

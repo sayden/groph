@@ -1,14 +1,12 @@
 package groph
 
-import "errors"
-
-func (g *Graph) Outer(v *Vertex) ([]*Edge, error) {
+func (g *Graph) Outer(v *Vertex) Edges {
 	return v.Outer()
 }
 
 //OuterWhereEdge returns edges that matches specified filter
-func (g *Graph) OuterWhereEdge(filterFunc func(*Edge) bool) (edges []*Edge, err error) {
-	edges = make([]*Edge, 0)
+func (g *Graph) OuterWhereEdge(filterFunc func(*Edge) bool) (edges Edges) {
+	edges = make(Edges, 0)
 
 	for _, e := range g.StartVertex.OuterEdges {
 		if filterFunc(e) {
@@ -16,26 +14,18 @@ func (g *Graph) OuterWhereEdge(filterFunc func(*Edge) bool) (edges []*Edge, err 
 		}
 	}
 
-	if len(edges) == 0 {
-		err = errors.New("No edges found")
-	}
-
 	return
 }
 
 //OuterWhereVertex returns edges that passes the provided filter
-func (g *Graph) OuterWhereVertex(f func(*Vertex) bool) (edges []*Edge, err error) {
-	edges = make([]*Edge, 0)
+func (g *Graph) OuterWhereVertex(f func(*Vertex) bool) (edges Edges) {
+	edges = make(Edges, 0)
 
 	g.Traverse(func(v *Vertex) {
 		if f(v) {
 			edges = append(edges, v.OuterEdges...)
 		}
 	})
-
-	if len(edges) == 0 {
-		err = noEdgesError
-	}
 
 	return
 }

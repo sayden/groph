@@ -5,10 +5,7 @@ import "testing"
 func TestVertex_Outer(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges, err := graph.Outer(graph.StartVertex)
-	if err != nil {
-		t.Fatal()
-	}
+	edges := graph.Outer(graph.StartVertex)
 
 	for _, e := range edges {
 		if e.PointsTo.GetID() != "A" && e.PointsTo.GetID() != "B" {
@@ -20,13 +17,9 @@ func TestVertex_Outer(t *testing.T) {
 func TestVertex_OuterWhereEdge(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges, err := graph.OuterWhereEdge(func(e *Edge) bool {
+	edges := graph.OuterWhereEdge(func(e *Edge) bool {
 		return e.PointsTo.GetID() == "A"
 	})
-
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	if len(edges) != 1 {
 		t.Fatal()
@@ -40,13 +33,9 @@ func TestVertex_OuterWhereEdge(t *testing.T) {
 func TestGraph_OuterWhereVertex(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges ,err := graph.OuterWhereVertex(func(v *Vertex) bool {
+	edges := graph.OuterWhereVertex(func(v *Vertex) bool {
 		return v.GetID() == "A"
 	})
-
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	if len(edges) != 1 {
 		t.Fail()

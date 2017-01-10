@@ -14,3 +14,11 @@ func (a *AnyData) GetData() interface{} {
 func (a *AnyData) GetID() interface{} {
 	return a.ID
 }
+
+func (a *AnyData) SetID(i interface{}){
+	a.ID = i
+}
+
+func (a *AnyData) SetData(d interface{}){
+	a.Data = d
+}

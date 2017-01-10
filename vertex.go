@@ -4,30 +4,24 @@ import "fmt"
 
 type Vertex struct {
 	Data `json:"data, omitempty"`
-	OuterEdges []*Edge `json:"outer_edges, omitempty"`
-	InnerEdges []*Edge `json:"inner_edges, omitempty"`
+	OuterEdges Edges `json:"outer_edges, omitempty"`
+	InnerEdges Edges `json:"inner_edges, omitempty"`
 }
 
 type Data interface {
 	GetData() interface{}
+	SetData(interface{})
 	GetID() interface{}
+	SetID(interface{})
 }
 
 // Outer returns the edges that the current vertex has
-func (v *Vertex) Outer() ([]*Edge, error) {
-	if len(v.OuterEdges) == 0 {
-		return nil, noEdgesError
-	}
-
-	return v.OuterEdges, nil
+func (v *Vertex) Outer() (Edges) {
+	return v.OuterEdges
 }
 
-func (v *Vertex) Inner() ([]*Edge, error) {
-	if len(v.InnerEdges) == 0 {
-		return nil, noEdgesError
-	}
-
-	return v.InnerEdges, nil
+func (v *Vertex) Inner() Edges {
+	return v.InnerEdges
 }
 
 func (v *Vertex) String() string {

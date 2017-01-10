@@ -1,9 +1,6 @@
 package groph
 
-import (
-	"errors"
-	"os"
-)
+import "errors"
 
 // Graph is the main type to do queries and stores a vertex to be used as the starting point of any query. At the same
 // time it maintains a map of known vertices
@@ -56,6 +53,8 @@ func (g *Graph) NewVertexWithUpdate(d Data) *Vertex {
 		return newV
 	}
 
+	g.IndexMap[d.GetID()].Data = d
+
 	return g.IndexMap[d.GetID()]
 }
 
@@ -75,8 +74,6 @@ func (g *Graph) NewVertex(d Data) *Vertex {
 		return newV
 	}
 
-	g.IndexMap[d.GetID()].Data = d
-
 	return g.IndexMap[d.GetID()]
 }
 
@@ -88,17 +85,6 @@ func (g *Graph) SetRootVertex(r *Vertex) {
 //TODO SaveToDisk
 func (g *Graph) SaveToDisk(filePath string) error {
 	return errors.New("Not implemented")
-}
-
-//TODO LoadGraphFromDisk
-func LoadGraphFromDisk(filePath string) (*Graph, error) {
-	_, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-
-	return nil, errors.New("Not implemented")
-
 }
 
 // NewGraph just returns an initialized graph
