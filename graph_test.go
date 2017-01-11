@@ -1,5 +1,7 @@
 package groph
 
+import "testing"
+
 func getMockedGraph() *Graph {
 	graph := NewGraph()
 
@@ -24,4 +26,22 @@ func getMockedGraph() *Graph {
 	graph.SetRootVertex(start)
 
 	return graph
+}
+
+func TestGraph_Find(t *testing.T) {
+	graph := getMockedGraph()
+
+	_, err := graph.Find("start")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	notFound, err := graph.Find("not exists")
+	if err == nil {
+		t.Fatal("Expected error, found nil")
+	}
+
+	if notFound != nil {
+		t.Fatalf("Expected nil vertex, found %#v\n", notFound)
+	}
 }

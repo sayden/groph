@@ -1,6 +1,10 @@
 package parser
 
-import "testing"
+import (
+	"testing"
+	"github.com/sayden/groph"
+	"fmt"
+)
 
 func TestParseSimpleJSONFile(t *testing.T) {
 	graph, err := ReadJSONSimpleFileFormat("parser/simple.json")
@@ -48,4 +52,20 @@ func TestParseJSONFile(t *testing.T) {
 	if v.OuterEdges[0].PointsTo.GetID() != "A" {
 		t.Fatalf("%s != A\n%s\n", v.OuterEdges[0].PointsTo.GetID(), graph.StartVertex)
 	}
+}
+
+func TestReadJSONSimpleFileFormat(t *testing.T) {
+	graph, err := ReadJSONSimpleFileFormat("groph_data.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	v, err := graph.Find("240")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	v.Inner().Each(func(e *groph.Edge){
+		fmt.Println(e)
+	})
 }
