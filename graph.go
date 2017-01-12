@@ -93,3 +93,4 @@ func NewGraph() *Graph {
 		IndexMap: make(map[interface{}]*Vertex),
 	}
 }
+

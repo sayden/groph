@@ -39,3 +39,7 @@ func (v *Vertex) String() string {
 
 	return res
 }
+
+func PrintV(v *Vertex){
+	fmt.Println(v)
+}

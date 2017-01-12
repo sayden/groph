@@ -1,6 +1,11 @@
 package parser
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+
+	"github.com/sayden/groph"
+)
 
 func TestParseSimpleYAMLFile(t *testing.T) {
 	graph, err := ReadYAMLSimpleFileFormat("parser/simple.yaml")
@@ -48,4 +53,20 @@ func TestParseYAMLFile(t *testing.T) {
 	if v.OuterEdges[0].PointsTo.GetID() != "A" {
 		t.Fatalf("%s != A\n", v.OuterEdges[0].PointsTo.GetID())
 	}
+}
+
+func TestParseYAMLFile2(t *testing.T) {
+	graph, err := ReadYAMLSimpleFileFormat("simple_big_graph.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	v, err := graph.Find("240")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	v.Inner().Each(func(e *groph.Edge) {
+		fmt.Println(e)
+	})
 }

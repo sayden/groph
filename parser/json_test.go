@@ -55,7 +55,7 @@ func TestParseJSONFile(t *testing.T) {
 }
 
 func TestReadJSONSimpleFileFormat(t *testing.T) {
-	graph, err := ReadJSONSimpleFileFormat("groph_data.yaml")
+	graph, err := ReadJSONSimpleFileFormat("simple_big_graph.json")
 	if err != nil {
 		t.Fatal(err)
 	}

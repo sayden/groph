@@ -9,6 +9,7 @@ func getMockedGraph() *Graph {
 	b := graph.NewVertex(&AnyData{Data: "B", ID: "B"})
 
 	start := graph.NewVertex(&AnyData{Data: "start", ID: "start"})
+
 	finish := graph.NewVertexWithUpdate(&AnyData{Data: "finish", ID: "finish"})
 	finish = graph.NewVertexWithUpdate(&AnyData{Data: "finish", ID: "finish"})
 
@@ -16,7 +17,7 @@ func getMockedGraph() *Graph {
 	graph.AddConnection(start, b, graph.NewEdge(&AnyData{Data: "Start to B", ID: "Start to B"}, 2))
 
 	graph.AddConnection(a, finish, graph.NewEdge(&AnyData{Data: "A to Finish", ID: "A to Finish"}, 1))
-	graph.AddConnection(b, a, graph.NewEdge(&AnyData{Data: "A to B", ID: "A to B"}, 3))
+	graph.AddConnection(a, b, graph.NewEdge(&AnyData{Data: "A to B", ID: "A to B"}, 3))
 
 	graph.AddConnection(b, finish, graph.NewEdge(&AnyData{Data: "B to Finish", ID: "B to Finish"}, 5))
 	graph.AddConnection(b, a, graph.NewEdge(&AnyData{Data: "B to A", ID: "B to A"}, 3))
