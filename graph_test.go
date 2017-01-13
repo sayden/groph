@@ -3,7 +3,7 @@ package groph
 import "testing"
 
 func getMockedGraph() *Graph {
-	graph := NewGraph()
+	graph := New()
 
 	a := graph.NewVertex(&AnyData{Data: "A", ID: "A"})
 	b := graph.NewVertex(&AnyData{Data: "B", ID: "B"})

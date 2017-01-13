@@ -108,3 +108,76 @@ func TestVertices_Fold(t *testing.T) {
 		t.Fatalf("%d != %d\n", res, 10)
 	}
 }
+
+func TestVertices_MapT(t *testing.T) {
+	graph := getMockedGraph()
+
+	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+		return e.PointsTo
+	}).MapT(func(e *Vertex) Data {
+		return e.InnerEdges[0]
+	}).Edges()
+
+	if vertices == nil {
+		t.Fatal("vertices are nil")
+	}
+
+	if vertices.Size() != 2 {
+		t.Errorf("%d != 2\n", vertices.Size())
+	}
+}
+
+func TestVertices_MapT2(t *testing.T) {
+	graph := getMockedGraph()
+
+	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+		return e.PointsTo
+	}).MapT(func(e *Vertex) Data {
+		return e.InnerEdges[0]
+	}).Edges()
+
+	if vertices == nil {
+		t.Fatal("vertices are nil")
+	}
+
+	if vertices.Size() != 2 {
+		t.Errorf("%d != 2\n", vertices.Size())
+	}
+}
+
+func TestVertices_MapE(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+		return e.PointsTo
+	}).MapE(func(v *Vertex) *Edge {
+		return v.InnerEdges[0]
+	})
+
+	if edges.Size() == 0 {
+		t.Fail()
+	}
+
+	if edges[0] == nil {
+		t.Fail()
+	}
+}
+
+
+func TestVertices_FlatMap(t *testing.T) {
+	graph := getMockedGraph()
+
+	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+		return e.PointsTo
+	}).FlatMap(func(v *Vertex)Vertices{
+		return v.Inner().Outer().Outer().Inner().Inner().Inner()
+	})
+
+	if vertices.Size() == 0 {
+		t.Fail()
+	}
+
+	if vertices[0] == nil {
+		t.Fail()
+	}
+}

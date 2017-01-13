@@ -23,6 +23,10 @@ func main() {
 
 	// From previous result, tell me shortes routes from 'finish' to any of vertices in result if exists
 	graph.SetRootVertex(v)
+
+	// We can get many duplicates from the results. This is because we are asking for vertices and the same vertex
+	// can be pointed by more than one of the searched vertices. Generally it's better to retrieve edges that contains
+	// more information about the connection.
 	noDuplicateSearch := make(map[interface{}]bool)
 
 	//Inner represents edges pointing to 'v'

@@ -1,9 +1,6 @@
 package groph
 
-import (
-	"testing"
-	"fmt"
-)
+import "testing"
 
 func TestShortest(t *testing.T) {
 	graph := getMockedGraph()

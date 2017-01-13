@@ -82,3 +82,52 @@ func TestEdges_Fold(t *testing.T) {
 		t.Fatalf("%f != 8\n", res)
 	}
 }
+
+func TestEdges_MapV(t *testing.T) {
+	graph := getMockedGraph()
+
+	vertices := graph.StartVertex.Inner().MapV(func(e *Edge) *Vertex{
+		return e.PointsTo
+	})
+
+	if vertices == nil {
+		t.Fatal("vertices are nil")
+	}
+
+	if vertices.Size() != 1 {
+		t.Errorf("%d != 2\n", vertices.Size())
+	}
+}
+
+func TestEdges_MapT(t *testing.T) {
+	graph := getMockedGraph()
+
+	vertices := graph.StartVertex.Inner().MapT(func(e *Edge) Data {
+		return e.PointsTo
+	}).Vertices()
+
+	if vertices == nil {
+		t.Fatal("vertices are nil")
+	}
+
+	if vertices.Size() != 1 {
+		t.Errorf("%d != 2\n", vertices.Size())
+	}
+}
+
+
+func TestEdges_MapT2(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.StartVertex.Inner().MapT(func(e *Edge) Data {
+		return e.PointsTo.Inner()[0]
+	}).Edges()
+
+	if edges == nil {
+		t.Fatal("edges are nil")
+	}
+
+	if edges.Size() != 1 {
+		t.Errorf("%d != 2\n", edges.Size())
+	}
+}

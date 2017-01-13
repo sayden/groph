@@ -8,7 +8,7 @@ import (
 
 // convertSimpleFileFormat
 func convertSimpleFileFormat(gf *SimpleFileFormat) (graph *groph.Graph, err error) {
-	graph = groph.NewGraph()
+	graph = groph.New()
 
 	for _, row := range *gf {
 		addSimpleRow(row, graph)
@@ -19,7 +19,7 @@ func convertSimpleFileFormat(gf *SimpleFileFormat) (graph *groph.Graph, err erro
 
 // ConvertExtendedFormat must be called to create a graph from a ExtendedFileFormat value.
 func ConvertExtendedFormat(gf *ExtendedFileFormat) (graph *groph.Graph, err error) {
-	graph = groph.NewGraph()
+	graph = groph.New()
 
 	for _, row := range *gf {
 		addExtendedRow(row, graph)

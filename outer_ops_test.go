@@ -37,12 +37,12 @@ func TestGraph_OuterWhereVertex(t *testing.T) {
 		return v.GetID() == "A"
 	})
 
-	if len(edges) != 1 {
-		t.Fail()
+	if len(edges) != 2 {
+		t.Errorf("%d != 1\n", len(edges))
 	}
 
 	for _, edge := range edges {
-		if edge.PointsTo.GetID() != "finish" {
+		if edge.PointsTo.GetID() != "finish" && edge.PointsTo.GetID() != "B"{
 			t.Fail()
 		}
 	}

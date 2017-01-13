@@ -22,11 +22,15 @@ func (es Edges) MapV(f func(*Edge) *Vertex) (res Vertices) {
 	return
 }
 
-func (es Edges) MapT(f func(*Edge) interface{}) (res []interface{}) {
-	res = make([]interface{}, len(es))
+func (es Edges) Size() int {
+	return len(es)
+}
+
+func (es Edges) MapT(f func(*Edge) Data) (res *Results) {
+	res = NewResults()
 
 	for i := 0; i < len(es); i++ {
-		res[i] = f(es[i])
+		res.AddIfNotExists(f(es[i]))
 	}
 
 	return
@@ -58,4 +62,24 @@ func (es Edges) Fold(init interface{}, f func(a interface{}, b *Edge) interface{
 	}
 
 	return cur
+}
+
+func (es Edges) Outer() Vertices {
+	res := NewResults()
+
+	for _, v := range es {
+		res.AddIfNotExists(v.PointsTo)
+	}
+
+	return res.Vertices()
+}
+
+func (es Edges) Inner() Vertices {
+	res := NewResults()
+
+	for _, v := range es {
+		res.AddIfNotExists(v.From)
+	}
+
+	return res.Vertices()
 }

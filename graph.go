@@ -87,8 +87,8 @@ func (g *Graph) SaveToDisk(filePath string) error {
 	return errors.New("Not implemented")
 }
 
-// NewGraph just returns an initialized graph
-func NewGraph() *Graph {
+// New just returns an initialized graph
+func New() *Graph {
 	return &Graph{
 		IndexMap: make(map[interface{}]*Vertex),
 	}

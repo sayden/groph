@@ -14,6 +14,10 @@ func (vs Vertices) Map(f func(v *Vertex) *Vertex) (res Vertices){
 	return
 }
 
+func (vs Vertices) Size() int {
+	return len(vs)
+}
+
 func (vs Vertices) FlatMap(f func(v *Vertex) Vertices) (res Vertices){
 	res = make([]*Vertex, 0)
 
@@ -36,11 +40,11 @@ func (vs Vertices) MapE(f func(v *Vertex) *Edge) (res Edges){
 }
 
 
-func (vs Vertices) MapT(f func(v *Vertex) interface{}) (res []interface{}){
-	res = make([]interface{}, len(vs))
+func (vs Vertices) MapT(f func(v *Vertex) Data) (res *Results){
+	res = NewResults()
 
-	for k, vertex := range vs {
-		res[k] = f(vertex)
+	for _, vertex := range vs {
+		res.AddIfNotExists(f(vertex))
 	}
 
 	return
@@ -72,4 +76,28 @@ func (vs Vertices) Fold(init interface{}, f func(a interface{}, b *Vertex) inter
 	}
 
 	return cur
+}
+
+func (vs Vertices) Outer() Edges {
+	res := NewResults()
+
+	for _, v := range vs {
+		for _, e :=  range v.OuterEdges {
+			res.AddIfNotExists(e)
+		}
+	}
+
+	return res.Edges()
+}
+
+func (vs Vertices) Inner() Edges {
+	res := NewResults()
+
+	for _, v := range vs {
+		for _, e :=  range v.InnerEdges {
+			res.AddIfNotExists(e)
+		}
+	}
+
+	return res.Edges()
 }
