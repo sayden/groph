@@ -170,7 +170,7 @@ func TestVertices_FlatMap(t *testing.T) {
 	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
 		return e.PointsTo
 	}).FlatMap(func(v *Vertex)Vertices{
-		return v.Inner().Outer().Outer().Inner().Inner().Inner()
+		return v.Inner().PointsTo().Outer().From().Inner().From()
 	})
 
 	if vertices.Size() == 0 {

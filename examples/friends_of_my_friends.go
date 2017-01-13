@@ -24,24 +24,8 @@ func main() {
 	// From previous result, tell me shortes routes from 'finish' to any of vertices in result if exists
 	graph.SetRootVertex(v)
 
-	// We can get many duplicates from the results. This is because we are asking for vertices and the same vertex
-	// can be pointed by more than one of the searched vertices. Generally it's better to retrieve edges that contains
-	// more information about the connection.
-	noDuplicateSearch := make(map[interface{}]bool)
-
 	//Inner represents edges pointing to 'v'
-	v.Inner().MapV(func(edge *groph.Edge) *groph.Vertex{
-		return edge.From
-
-	}).FlatMap(func(v *groph.Vertex) groph.Vertices {
-		//Each edge has a 'From' and a 'PointTo' field with the references to the vertices it connects
-		return v.Inner().MapV(func(e *groph.Edge) *groph.Vertex{
-			return e.From
-		})
-
-	}).Each(func(candidate *groph.Vertex) {
-		if !noDuplicateSearch[candidate.GetID()] {
-			noDuplicateSearch[candidate.GetID()] = true
+	v.Inner().From().Inner().From().Each(func(candidate *groph.Vertex) {
 
 			fmt.Printf("Searching shortest route from '%s' to '%s'\n", v.GetID(), candidate.GetID())
 			result, totalCost, err := graph.ShortestPath(candidate.GetID())
@@ -58,6 +42,5 @@ func main() {
 
 				fmt.Printf("\n\n")
 			}
-		}
 	})
 }
