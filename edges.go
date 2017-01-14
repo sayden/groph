@@ -64,7 +64,7 @@ func (es Edges) Fold(init interface{}, f func(a interface{}, b *Edge) interface{
 	return cur
 }
 
-func (es Edges) PointsTo() Vertices {
+func (es Edges) PointsToVertices() Vertices {
 	res := NewResults()
 
 	for _, v := range es {
@@ -74,7 +74,7 @@ func (es Edges) PointsTo() Vertices {
 	return res.Vertices()
 }
 
-func (es Edges) From() Vertices {
+func (es Edges) FromVertices() Vertices {
 	res := NewResults()
 
 	for _, v := range es {

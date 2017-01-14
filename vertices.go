@@ -78,11 +78,11 @@ func (vs Vertices) Fold(init interface{}, f func(a interface{}, b *Vertex) inter
 	return cur
 }
 
-func (vs Vertices) Outer() Edges {
+func (vs Vertices) OutEdges() Edges {
 	res := NewResults()
 
 	for _, v := range vs {
-		for _, e :=  range v.OuterEdges {
+		for _, e :=  range v.outEdges {
 			res.AddIfNotExists(e)
 		}
 	}
@@ -90,11 +90,11 @@ func (vs Vertices) Outer() Edges {
 	return res.Edges()
 }
 
-func (vs Vertices) Inner() Edges {
+func (vs Vertices) InEdges() Edges {
 	res := NewResults()
 
 	for _, v := range vs {
-		for _, e :=  range v.InnerEdges {
+		for _, e :=  range v.inEdges {
 			res.AddIfNotExists(e)
 		}
 	}

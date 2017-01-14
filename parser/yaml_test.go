@@ -17,8 +17,8 @@ func TestParseSimpleYAMLFile(t *testing.T) {
 		t.Fatal()
 	}
 
-	if graph.StartVertex.OuterEdges[0].PointsTo.GetID() != "B" {
-		t.Fatalf("%s != B", graph.StartVertex.OuterEdges[0].PointsTo.GetID())
+	if graph.StartVertex.OutEdges()[0].PointsTo.GetID() != "B" {
+		t.Fatalf("%s != B", graph.StartVertex.OutEdges()[0].PointsTo.GetID())
 	}
 
 	v, err := graph.Find("B")
@@ -26,8 +26,8 @@ func TestParseSimpleYAMLFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if v.OuterEdges[1].PointsTo.GetID() != "A" {
-		t.Fatalf("%s != A\n", v.OuterEdges[0].PointsTo.GetID())
+	if v.OutEdges()[1].PointsTo.GetID() != "A" {
+		t.Fatalf("%s != A\n", v.OutEdges()[0].PointsTo.GetID())
 	}
 }
 
@@ -41,8 +41,8 @@ func TestParseYAMLFile(t *testing.T) {
 		t.Fatalf("%s != start\n%s\n", graph.StartVertex.GetID(), graph.StartVertex)
 	}
 
-	if graph.StartVertex.OuterEdges[0].PointsTo.GetID() != "A" {
-		t.Fatalf("%s != A\n", graph.StartVertex.OuterEdges[0].PointsTo.GetID())
+	if graph.StartVertex.OutEdges()[0].PointsTo.GetID() != "A" {
+		t.Fatalf("%s != A\n", graph.StartVertex.OutEdges()[0].PointsTo.GetID())
 	}
 
 	v, err := graph.Find("B")
@@ -50,8 +50,8 @@ func TestParseYAMLFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if v.OuterEdges[0].PointsTo.GetID() != "A" {
-		t.Fatalf("%s != A\n", v.OuterEdges[0].PointsTo.GetID())
+	if v.OutEdges()[0].PointsTo.GetID() != "A" {
+		t.Fatalf("%s != A\n", v.OutEdges()[0].PointsTo.GetID())
 	}
 }
 
@@ -66,7 +66,7 @@ func TestParseYAMLFile2(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	v.Inner().Each(func(e *groph.Edge) {
+	v.InEdges().Each(func(e *groph.Edge) {
 		fmt.Println(e)
 	})
 }

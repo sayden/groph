@@ -30,8 +30,8 @@ func (g *Graph) AddConnection(s, t *Vertex, e *Edge) {
 	e.From = s
 	e.PointsTo = t
 
-	s.OuterEdges = append(s.OuterEdges, e)
-	t.InnerEdges = append(t.InnerEdges, e)
+	s.outEdges = append(s.outEdges, e)
+	t.inEdges = append(t.inEdges, e)
 
 	if g.StartVertex == nil {
 		g.StartVertex = s
@@ -43,8 +43,8 @@ func (g *Graph) AddConnection(s, t *Vertex, e *Edge) {
 func (g *Graph) NewVertexWithUpdate(d Data) *Vertex {
 	if g.IndexMap[d.GetID()] == nil {
 		newV := &Vertex{
-			InnerEdges: make([]*Edge, 0),
-			OuterEdges: make([]*Edge, 0),
+			inEdges: make([]*Edge, 0),
+			outEdges: make([]*Edge, 0),
 			Data:       d,
 		}
 
@@ -64,8 +64,8 @@ func (g *Graph) NewVertexWithUpdate(d Data) *Vertex {
 func (g *Graph) NewVertex(d Data) *Vertex {
 	if g.IndexMap[d.GetID()] == nil {
 		newV := &Vertex{
-			InnerEdges: make([]*Edge, 0),
-			OuterEdges: make([]*Edge, 0),
+			inEdges: make([]*Edge, 0),
+			outEdges: make([]*Edge, 0),
 			Data:       d,
 		}
 
@@ -80,6 +80,69 @@ func (g *Graph) NewVertex(d Data) *Vertex {
 // SetRootVertex changes the current root vertex. This is useful to initiate some specific searches from a particular vertex
 func (g *Graph) SetRootVertex(r *Vertex) {
 	g.StartVertex = r
+}
+
+func (g *Graph) Out(v *Vertex) Edges {
+	return v.OutEdges()
+}
+
+//OutWhereEdge returns edges that matches specified filter
+func (g *Graph) OutWhereEdge(filterFunc func(*Edge) bool) (edges Edges) {
+	edges = make(Edges, 0)
+
+	for _, e := range g.StartVertex.outEdges {
+		if filterFunc(e) {
+			edges = append(edges, e)
+		}
+	}
+
+	return
+}
+
+//OutWhereVertex returns edges that passes the provided filter
+func (g *Graph) OutWhereVertex(f func(*Vertex) bool) (edges Edges) {
+	edges = make(Edges, 0)
+
+	g.Traverse(func(v *Vertex) {
+		if f(v) {
+			edges = append(edges, v.outEdges...)
+		}
+	})
+
+	return
+}
+//In returns the edges that points to current vertex
+func (g *Graph) In(v *Vertex) []*Edge {
+	return v.InEdges()
+}
+
+//InWhereEdge traverses the entire graph and returns all inner edges that passes the filter function
+func (g *Graph) InWhereEdge(f func(*Edge) bool) (res []*Edge) {
+	res = make([]*Edge, 0)
+
+	g.Traverse(func(v *Vertex) {
+		for _, edge := range v.inEdges {
+			if f(edge) {
+				res = append(res, edge)
+			}
+		}
+	})
+
+	return res
+}
+
+
+//InWhereVertex returns all inner edges that matches the filter function
+func (g *Graph) InWhereVertex(f func(*Vertex) bool) (res []*Edge) {
+	res = make([]*Edge, 0)
+
+	g.Traverse(func(c *Vertex) {
+		if f(c) {
+			res = append(res, c.inEdges...)
+		}
+	})
+
+	return
 }
 
 //TODO SaveToDisk

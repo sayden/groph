@@ -24,8 +24,7 @@ func main() {
 	// From previous result, tell me shortes routes from 'finish' to any of vertices in result if exists
 	graph.SetRootVertex(v)
 
-	//Inner represents edges pointing to 'v'
-	v.Inner().From().Inner().From().Each(func(candidate *groph.Vertex) {
+	v.InEdges().FromVertices().InEdges().FromVertices().Each(func(candidate *groph.Vertex) {
 
 			fmt.Printf("Searching shortest route from '%s' to '%s'\n", v.GetID(), candidate.GetID())
 			result, totalCost, err := graph.ShortestPath(candidate.GetID())

@@ -15,11 +15,11 @@ func (g *Graph) breadthFirst(s *Vertex, id interface{}, f func(*Vertex), seen ma
 		f(s)
 		return
 	} else {
-		for _, v := range s.OuterEdges {
+		for _, v := range s.outEdges {
 			g.breadthFirst(v.PointsTo, id, f, seen)
 		}
 
-		for _,v := range s.InnerEdges {
+		for _,v := range s.inEdges {
 			g.breadthFirst(v.From, id, f, seen)
 		}
 	}

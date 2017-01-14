@@ -12,7 +12,7 @@ func TestEdge_Points(t *testing.T) {
 
 	v.String()
 
-	if !graph.StartVertex.OuterEdges[0].Points(v){
+	if !graph.StartVertex.outEdges[0].Points(v){
 		t.Fail()
 	}
 }

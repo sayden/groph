@@ -8,10 +8,10 @@ import (
 func TestVertices_Map(t *testing.T) {
 	graph := getMockedGraph()
 
-	amount := len(graph.StartVertex.OuterEdges)
+	amount := len(graph.StartVertex.outEdges)
 
 	var vertices Vertices = make([]*Vertex, amount)
-	for k, e := range graph.StartVertex.OuterEdges {
+	for k, e := range graph.StartVertex.outEdges {
 		vertices[k] = e.PointsTo
 	}
 
@@ -35,10 +35,10 @@ func TestVertices_Each(t *testing.T) {
 	graph := getMockedGraph()
 
 	modifiedData := "Modified data"
-	amount := len(graph.StartVertex.OuterEdges)
+	amount := len(graph.StartVertex.outEdges)
 
 	var vertices Vertices = make([]*Vertex, amount)
-	for k, e := range graph.StartVertex.OuterEdges {
+	for k, e := range graph.StartVertex.outEdges {
 		vertices[k] = e.PointsTo
 	}
 
@@ -50,7 +50,7 @@ func TestVertices_Each(t *testing.T) {
 		amount--
 	})
 
-	for _, v := range graph.StartVertex.OuterEdges {
+	for _, v := range graph.StartVertex.outEdges {
 		if v.PointsTo.GetData() != modifiedData {
 			t.Fatalf("%s != %s\n", v.Data.GetData(), modifiedData)
 		}
@@ -64,9 +64,9 @@ func TestVertices_Each(t *testing.T) {
 func TestVertices_Filter(t *testing.T) {
 	graph := getMockedGraph()
 
-	amount := len(graph.StartVertex.OuterEdges)
+	amount := len(graph.StartVertex.outEdges)
 	var vertices Vertices = make([]*Vertex, amount)
-	for k, e := range graph.StartVertex.OuterEdges {
+	for k, e := range graph.StartVertex.outEdges {
 		vertices[k] = e.PointsTo
 	}
 
@@ -89,9 +89,9 @@ func TestVertices_Filter(t *testing.T) {
 func TestVertices_Fold(t *testing.T) {
 	graph := getMockedGraph()
 
-	amount := len(graph.StartVertex.OuterEdges)
+	amount := len(graph.StartVertex.outEdges)
 	var vertices Vertices = make([]*Vertex, amount)
-	for k, e := range graph.StartVertex.OuterEdges {
+	for k, e := range graph.StartVertex.outEdges {
 		vertices[k] = e.PointsTo
 		vertices[k].SetData(5)
 		vertices[k].SetID(5)
@@ -112,10 +112,10 @@ func TestVertices_Fold(t *testing.T) {
 func TestVertices_MapT(t *testing.T) {
 	graph := getMockedGraph()
 
-	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+	vertices := graph.StartVertex.OutEdges().MapV(func(e *Edge) *Vertex {
 		return e.PointsTo
 	}).MapT(func(e *Vertex) Data {
-		return e.InnerEdges[0]
+		return e.inEdges[0]
 	}).Edges()
 
 	if vertices == nil {
@@ -130,10 +130,10 @@ func TestVertices_MapT(t *testing.T) {
 func TestVertices_MapT2(t *testing.T) {
 	graph := getMockedGraph()
 
-	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+	vertices := graph.StartVertex.OutEdges().MapV(func(e *Edge) *Vertex {
 		return e.PointsTo
 	}).MapT(func(e *Vertex) Data {
-		return e.InnerEdges[0]
+		return e.inEdges[0]
 	}).Edges()
 
 	if vertices == nil {
@@ -148,10 +148,10 @@ func TestVertices_MapT2(t *testing.T) {
 func TestVertices_MapE(t *testing.T) {
 	graph := getMockedGraph()
 
-	edges := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+	edges := graph.StartVertex.OutEdges().MapV(func(e *Edge) *Vertex {
 		return e.PointsTo
 	}).MapE(func(v *Vertex) *Edge {
-		return v.InnerEdges[0]
+		return v.inEdges[0]
 	})
 
 	if edges.Size() == 0 {
@@ -167,10 +167,10 @@ func TestVertices_MapE(t *testing.T) {
 func TestVertices_FlatMap(t *testing.T) {
 	graph := getMockedGraph()
 
-	vertices := graph.StartVertex.Outer().MapV(func(e *Edge) *Vertex {
+	vertices := graph.StartVertex.OutEdges().MapV(func(e *Edge) *Vertex {
 		return e.PointsTo
 	}).FlatMap(func(v *Vertex)Vertices{
-		return v.Inner().PointsTo().Outer().From().Inner().From()
+		return v.InEdges().PointsToVertices().OutEdges().FromVertices().InEdges().FromVertices()
 	})
 
 	if vertices.Size() == 0 {

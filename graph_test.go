@@ -1,6 +1,9 @@
 package groph
 
-import "testing"
+import (
+	"testing"
+	"fmt"
+)
 
 func getMockedGraph() *Graph {
 	graph := New()
@@ -44,5 +47,98 @@ func TestGraph_Find(t *testing.T) {
 
 	if notFound != nil {
 		t.Fatalf("Expected nil vertex, found %#v\n", notFound)
+	}
+}
+
+func TestVertex_Out(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.Out(graph.StartVertex)
+
+	for _, e := range edges {
+		if e.PointsTo.GetID() != "A" && e.PointsTo.GetID() != "B" {
+			t.Fail()
+		}
+	}
+}
+
+func TestVertex_OutWhereEdge(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.OutWhereEdge(func(e *Edge) bool {
+		return e.PointsTo.GetID() == "A"
+	})
+
+	if len(edges) != 1 {
+		t.Fatal()
+	}
+
+	if edges[0].PointsTo.GetID() != "A" {
+		t.Fatal()
+	}
+}
+
+func TestGraph_OutWhereVertex(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.OutWhereVertex(func(v *Vertex) bool {
+		return v.GetID() == "A"
+	})
+
+	if len(edges) != 2 {
+		t.Errorf("%d != 1\n", len(edges))
+	}
+
+	for _, edge := range edges {
+		if edge.PointsTo.GetID() != "finish" && edge.PointsTo.GetID() != "B"{
+			t.Fail()
+		}
+	}
+}
+
+func TestVertex_In(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.In(graph.StartVertex)
+
+	if len(edges) != 1 {
+		t.Errorf("Unexpected number of edges %d != %d\n", len(edges), 1)
+	}
+
+	for _, e := range edges {
+		if e.PointsTo.GetID() != "start" {
+			t.Errorf("%s != %s", e.PointsTo.GetID(), "start")
+		}
+	}
+}
+
+func TestGraph_InWhereEdge(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.InWhereEdge(func(e *Edge) bool {
+		return e.PointsTo.GetID() == "start"
+	})
+
+	if edges[0].From.GetID() != "finish" || edges[0].PointsTo.GetID() != "start" {
+		fmt.Printf("%#v\n", edges[0])
+		t.Fail()
+	}
+}
+
+func TestGraph_InWhereVertex(t *testing.T) {
+	graph := getMockedGraph()
+
+	edges := graph.InWhereVertex(func(v *Vertex) bool {
+		return v.GetID() == "finish"
+	})
+
+	if len(edges) != 2 {
+		t.Errorf("Unexpected number of edges %d != %d\n", len(edges), 2)
+	}
+
+	for _, edge := range edges {
+		if edge.From.GetID() != "A" && edge.From.GetID() != "B" {
+			t.Fail()
+		}
 	}
 }

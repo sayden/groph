@@ -12,11 +12,11 @@ func (g *Graph) traverse(s *Vertex, f func(*Vertex), seen map[*Vertex]bool) {
 	f(s)
 	seen[s] = true
 
-	for _, v := range s.OuterEdges {
+	for _, v := range s.outEdges {
 		g.traverse(v.PointsTo, f, seen)
 	}
 
-	for _, v := range s.InnerEdges {
+	for _, v := range s.inEdges {
 		g.traverse(v.From, f, seen)
 	}
 }

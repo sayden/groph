@@ -19,7 +19,7 @@ func (g *Graph) ShortestPath(id interface{}) (reversed Vertices, totalCost float
 	parents[id] = nil
 
 	queue := NewQueue()
-	for _, e := range g.StartVertex.OuterEdges {
+	for _, e := range g.StartVertex.outEdges {
 		queue.Push(e)
 		costs[e.PointsTo.GetID()] = math.Inf(1)
 		parents[e.PointsTo.GetID()] = e
@@ -65,7 +65,7 @@ func (g *Graph) shortest(id interface{}, costs map[interface{}]float64, queue *Q
 		return nil
 	}
 
-	//Don't process outer edges of target node
+	//Don't process outgoing edges of target node
 	if currentEdge.From.GetID() == id {
 		return
 	}
@@ -77,7 +77,7 @@ func (g *Graph) shortest(id interface{}, costs map[interface{}]float64, queue *Q
 			parents[currentEdge.PointsTo.GetID()] = currentEdge
 		}
 
-		for _, edge := range currentEdge.PointsTo.OuterEdges {
+		for _, edge := range currentEdge.PointsTo.outEdges {
 			queue.Push(edge)
 		}
 

@@ -26,8 +26,8 @@ func TestParseExtendedFormatBytes(t *testing.T) {
 		t.Fatalf("%s != A\n%s\n", graph.StartVertex.GetID(), graph.StartVertex)
 	}
 
-	if graph.StartVertex.OuterEdges[0].PointsTo.GetID() != "A" {
-		t.Fatalf("%s != A\n%s\n", graph.StartVertex.OuterEdges[0].PointsTo.GetID(), graph.StartVertex)
+	if graph.StartVertex.OutEdges()[0].PointsTo.GetID() != "A" {
+		t.Fatalf("%s != A\n%s\n", graph.StartVertex.OutEdges()[0].PointsTo.GetID(), graph.StartVertex)
 	}
 
 	v, err := graph.Find("B")
@@ -35,8 +35,8 @@ func TestParseExtendedFormatBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if v.OuterEdges[0].PointsTo.GetID() != "A" {
-		t.Fatalf("%s != A\n%s\n", v.OuterEdges[0].PointsTo.GetID(), graph.StartVertex)
+	if v.OutEdges()[0].PointsTo.GetID() != "A" {
+		t.Fatalf("%s != A\n%s\n", v.OutEdges()[0].PointsTo.GetID(), graph.StartVertex)
 	}
 }
 
@@ -60,8 +60,8 @@ func TestParseSimpleFormatBytes(t *testing.T) {
 		t.Fatal()
 	}
 
-	if graph.StartVertex.OuterEdges[0].PointsTo.GetID() != "B" {
-		t.Fatalf("%s != B", graph.StartVertex.OuterEdges[0].PointsTo.GetID())
+	if graph.StartVertex.OutEdges()[0].PointsTo.GetID() != "B" {
+		t.Fatalf("%s != B", graph.StartVertex.OutEdges()[0].PointsTo.GetID())
 	}
 
 	v, err := graph.Find("B")
@@ -69,7 +69,7 @@ func TestParseSimpleFormatBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if v.OuterEdges[1].PointsTo.GetID() != "A" {
-		t.Fatalf("%s != A\n", v.OuterEdges[0].PointsTo.GetID())
+	if v.OutEdges()[1].PointsTo.GetID() != "A" {
+		t.Fatalf("%s != A\n", v.OutEdges()[0].PointsTo.GetID())
 	}
 }
