@@ -43,9 +43,9 @@ func (g *Graph) AddConnection(s, t *Vertex, e *Edge) {
 func (g *Graph) NewVertexWithUpdate(d Data) *Vertex {
 	if g.IndexMap[d.GetID()] == nil {
 		newV := &Vertex{
-			inEdges: make([]*Edge, 0),
+			inEdges:  make([]*Edge, 0),
 			outEdges: make([]*Edge, 0),
-			Data:       d,
+			Data:     d,
 		}
 
 		g.IndexMap[d.GetID()] = newV
@@ -64,9 +64,9 @@ func (g *Graph) NewVertexWithUpdate(d Data) *Vertex {
 func (g *Graph) NewVertex(d Data) *Vertex {
 	if g.IndexMap[d.GetID()] == nil {
 		newV := &Vertex{
-			inEdges: make([]*Edge, 0),
+			inEdges:  make([]*Edge, 0),
 			outEdges: make([]*Edge, 0),
-			Data:       d,
+			Data:     d,
 		}
 
 		g.IndexMap[d.GetID()] = newV
@@ -80,6 +80,16 @@ func (g *Graph) NewVertex(d Data) *Vertex {
 // SetRootVertex changes the current root vertex. This is useful to initiate some specific searches from a particular vertex
 func (g *Graph) SetRootVertex(r *Vertex) {
 	g.StartVertex = r
+}
+
+func (g *Graph) RootVertex() (v *Vertex, err error) {
+	if g.StartVertex != nil {
+		v = g.StartVertex
+		return
+	}
+
+	err = errors.New("Root vertex not set")
+	return
 }
 
 func (g *Graph) Out(v *Vertex) Edges {
@@ -111,6 +121,7 @@ func (g *Graph) OutWhereVertex(f func(*Vertex) bool) (edges Edges) {
 
 	return
 }
+
 //In returns the edges that points to current vertex
 func (g *Graph) In(v *Vertex) []*Edge {
 	return v.InEdges()
@@ -131,6 +142,17 @@ func (g *Graph) InWhereEdge(f func(*Edge) bool) (res []*Edge) {
 	return res
 }
 
+func (g *Graph) Filter(f func(*Vertex) bool) (vs Vertices) {
+	vs = make([]*Vertex, 0)
+
+	for _, v := range g.IndexMap {
+		if f(v) {
+			vs = append(vs, v)
+		}
+	}
+
+	return
+}
 
 //InWhereVertex returns all inner edges that matches the filter function
 func (g *Graph) InWhereVertex(f func(*Vertex) bool) (res []*Edge) {
@@ -141,6 +163,15 @@ func (g *Graph) InWhereVertex(f func(*Vertex) bool) (res []*Edge) {
 			res = append(res, c.inEdges...)
 		}
 	})
+
+	return
+}
+
+//All is a map-like function for each vertex in a graph
+func (g *Graph) All(f func(*Vertex)) {
+	for _, v := range g.IndexMap {
+		f(v)
+	}
 
 	return
 }
@@ -156,4 +187,3 @@ func New() *Graph {
 		IndexMap: make(map[interface{}]*Vertex),
 	}
 }
-

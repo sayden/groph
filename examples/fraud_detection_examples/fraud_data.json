@@ -1,0 +1,67 @@
+[
+  {
+    "vertex":  { "id": "p1",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u1",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p2",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u1",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p3",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u1",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p4",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u1",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p5",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u2",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p6",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u2",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p7",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u3",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p8",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u4",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p9",          "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u4",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p10",         "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u5",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p11",         "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u5",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p12",         "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u5",          "data":{ "type":"User" }}
+  },
+  {
+    "vertex":  { "id": "p1",         "data":{ "type":"PaymentMethod" }},
+    "edge":    { "id": "from_user"},
+    "d_vertex":{ "id": "u5",          "data":{ "type":"User" }}
+  }
+]
